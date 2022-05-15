@@ -2,9 +2,9 @@ package com.example.my_kinopoisk_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.metrics.Event;
 import android.os.Bundle;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final String url = "https://localhost:8082/movies/0";
         RestTemplate restTemplate = new RestTemplate();
-        //Event event = restTemplate.getForObject("https://myapp.com/event/{name}", Event.class, "springone2gx");
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        Movie movie = restTemplate.getForObject(url, Movie.class);
     }
 }
