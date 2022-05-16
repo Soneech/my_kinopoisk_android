@@ -29,4 +29,20 @@ public class Movie {
     public String getCountryOfProduction() {
         return countryOfProduction;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAgeLimit(Integer ageLimit) {
+        this.ageLimit = ageLimit;
+    }
+
+    public void setCountryOfProduction(String countryOfProduction) {
+        this.countryOfProduction = countryOfProduction;
+    }
 }

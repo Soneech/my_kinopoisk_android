@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.View;
 
@@ -53,13 +57,19 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         @Override
         protected Movie doInBackground(Void... params) {
             try {
-                final String url = "http://127.0.0.1:8082/movies/0";
+                final String url = "https://university-project-movie.herokuapp.com/movies?page=0&size=1";
+
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                movies = restTemplate.getForObject(url, Movie.class);
-                return movies;
+                String json = restTemplate.getForObject(url, String.class);
+
+                ObjectNode node = new ObjectMapper().readValue(json, ObjectNode.class);
+                ObjectMapper mapper = new ObjectMapper();
+                Movie movie = mapper.readValue(node.get("content").toString(), Movie[].class)[0];
+
+                return movie;
             } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
+                Log.e("RRR", e.getMessage(), e);
             }
             return null;
         }
