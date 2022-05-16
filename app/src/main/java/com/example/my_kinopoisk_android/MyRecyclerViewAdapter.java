@@ -6,61 +6,59 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>{
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private List<Movie> moviesList;
-    private LayoutInflater inflater;
-    private ItemClickListener clickListener;
+    private List<String> mData;
+    private LayoutInflater mInflater;
+    private ItemClickListener mClickListener;
 
-    MyRecyclerViewAdapter(Context context, List<Movie> moviesList) {
-        this.inflater = LayoutInflater.from(context);
-        this.moviesList = moviesList;
+    MyRecyclerViewAdapter(Context context, List<String> data) {
+        this.mInflater = LayoutInflater.from(context);
+        this.mData = data;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.recyclerview_item, parent, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        String animal = mData.get(position);
+        holder.myTextView.setText(animal);
     }
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return mData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView myTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            TextView titleTextView = itemView.findViewById(R.id.titleTextView);
-            titleTextView.setOnClickListener(this);
+            myTextView = itemView.findViewById(R.id.movieTitleTextView);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (clickListener != null) {
-                clickListener.onItemClick(view, getAbsoluteAdapterPosition());
-            }
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 
-    Movie getItem(int id) {
-        return moviesList.get(id);
+    String getItem(int id) {
+        return mData.get(id);
     }
 
     void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
+        this.mClickListener = itemClickListener;
     }
 
     public interface ItemClickListener {
