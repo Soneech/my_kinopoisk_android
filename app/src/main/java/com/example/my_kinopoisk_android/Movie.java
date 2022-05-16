@@ -7,6 +7,10 @@ public class Movie {
     private Integer ageLimit;
     private String countryOfProduction;
 
+    Movie() {
+
+    }
+
     public Movie(Long id, String title, Integer ageLimit, String countryOfProduction) {
         this.id = id;
         this.title = title;
