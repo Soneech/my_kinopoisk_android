@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Programming/ANDROID/my_kinopoisk_android/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Programming/ANDROID/my_kinopoisk_android/app/src/main/res/layout/fragment_item.xml" value="0.259375" />
+        <entry key="..\:/Programming/ANDROID/my_kinopoisk_android/app/src/main/res/layout/fragment_item_list.xml" value="0.259375" />
+        <entry key="..\:/Programming/ANDROID/my_kinopoisk_android/app/src/main/res/layout/fragment_movies_list.xml" value="0.264" />
+        <entry key="..\:/Programming/ANDROID/my_kinopoisk_android/app/src/main/res/layout/recyclerview_item.xml" value="0.259375" />
       </map>
     </option>
   </component>
