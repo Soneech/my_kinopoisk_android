@@ -1,77 +1,83 @@
 package com.example.my_kinopoisk_android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.example.my_kinopoisk_android.api.NetworkService;
+import com.example.my_kinopoisk_android.models.Movie;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener{
 
-    MyRecyclerViewAdapter adapter;
-    private Movie movies;
+    private MyRecyclerViewAdapter adapter;
+    private ArrayList<Movie> movies;
+    private ArrayList<String> moviesTitles;
+    private int moviesCount = 9;
+    private RecyclerView recyclerView;
+
+    private StringBuilder sbTitles;
+
+    StringBuffer stringBuffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.moviesRecyclerView);
 
-        ArrayList<String> moviesTitles = new ArrayList<>();
-        moviesTitles.add("Звёздные войны");
-        moviesTitles.add("Ведьмак");
-        moviesTitles.add("Ещё что-то");
+        movies = new ArrayList<>();
+        moviesTitles = new ArrayList<>();
+        getData();
 
-        RecyclerView recyclerView = findViewById(R.id.moviesRecyclerView);
+
+    }
+
+    public void updateData(Movie movie) {
+        moviesTitles.add(movie.getTitle());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyRecyclerViewAdapter(this, moviesTitles);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        new HttpRequestTask().execute();
+    public void getData() {
+        stringBuffer = new StringBuffer();
+        for (int i = 1; i <= moviesCount; i++) {
+            NetworkService.getInstance()
+                    .getJSONApi()
+                    .getPostWithID(i)
+                    .enqueue(new Callback<Movie>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
+                            Movie movie = response.body();
+                            updateData(movie);
+                            Log.d("RRR", movie.getTitle());
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Movie> call, @NonNull Throwable t) {
+                            Log.d("ERROR", t.getMessage());
+                        }
+                    });
+        }
     }
 
     @Override
     public void onItemClick(View view, int position) {
+
         Intent intent = new Intent(this, MovieActivity.class);
         startActivity(intent);
-    }
-
-    private class HttpRequestTask extends AsyncTask<Void, Void, Movie> {
-        @Override
-        protected Movie doInBackground(Void... params) {
-            try {
-                final String url = "https://university-project-movie.herokuapp.com/movies?page=0&size=1";
-
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                String json = restTemplate.getForObject(url, String.class);
-
-                ObjectNode node = new ObjectMapper().readValue(json, ObjectNode.class);
-                ObjectMapper mapper = new ObjectMapper();
-                Movie movie = mapper.readValue(node.get("content").toString(), Movie[].class)[0];
-                Log.d("RRR", movie.getTitle());
-
-                return movie;
-            } catch (Exception e) {
-                Log.e("RRR", e.getMessage(), e);
-            }
-            return null;
-        }
     }
 }
