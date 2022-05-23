@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 ObjectNode node = new ObjectMapper().readValue(json, ObjectNode.class);
                 ObjectMapper mapper = new ObjectMapper();
                 Movie movie = mapper.readValue(node.get("content").toString(), Movie[].class)[0];
+                Log.d("RRR", movie.getTitle());
 
                 return movie;
             } catch (Exception e) {
