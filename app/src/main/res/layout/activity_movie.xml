@@ -8,47 +8,87 @@
     tools:context=".MovieActivity">
 
     <TextView
-        android:id="@+id/ageLimitText"
+        android:id="@+id/countryOfProduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/country_text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ageLimitTV" />
+
+    <TextView
+        android:id="@+id/ageLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
         android:text="@string/age_limit_text"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieTitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/movieTitleTV" />
 
     <TextView
-        android:id="@+id/descriptionText"
+        android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
         android:text="@string/description"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countryOfProductionTV" />
+
+    <TextView
+        android:id="@+id/movieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="128dp"
+        android:text="@string/title_text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/movieTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
+
+    <TextView
+        android:id="@+id/ageLimitTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ageLimit" />
+
+    <TextView
+        android:id="@+id/countryOfProductionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="20dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countryOfProduction" />
 
     <TextView
-        android:id="@+id/countryOfProduction"
+        android:id="@+id/descriptionTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/country_text"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="20dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ageLimitText" />
-
-    <TextView
-        android:id="@+id/movieTitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="180dp"
-        android:text="@string/title_text"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

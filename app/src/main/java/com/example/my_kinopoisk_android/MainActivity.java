@@ -22,14 +22,10 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener{
 
     private MyRecyclerViewAdapter adapter;
-    private ArrayList<Movie> movies;
+    private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<String> moviesTitles;
     private int moviesCount = 9;
     private RecyclerView recyclerView;
-
-    private StringBuilder sbTitles;
-
-    StringBuffer stringBuffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +33,13 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.moviesRecyclerView);
 
-        movies = new ArrayList<>();
         moviesTitles = new ArrayList<>();
         getData();
 
-
+        for (int i = 0; i < moviesCount; i++) {
+            Log.d("RR1", movies.get(i).getTitle());
+        }
+        Log.d("RRR", String.valueOf(movies.size()));
     }
 
     public void updateData(Movie movie) {
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     }
 
     public void getData() {
-        stringBuffer = new StringBuffer();
         for (int i = 1; i <= moviesCount; i++) {
             NetworkService.getInstance()
                     .getJSONApi()
@@ -63,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                         public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
                             Movie movie = response.body();
                             updateData(movie);
-                            Log.d("RRR", movie.getTitle());
+                            movies.add(movie);
+                            Log.d("RRR", String.valueOf(movies.size()));
                         }
 
                         @Override
@@ -76,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onItemClick(View view, int position) {
-
         Intent intent = new Intent(this, MovieActivity.class);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 }
