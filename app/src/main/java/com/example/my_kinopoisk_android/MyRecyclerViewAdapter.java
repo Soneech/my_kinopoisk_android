@@ -1,6 +1,6 @@
 package com.example.my_kinopoisk_android;
 
-import android.content.Context;
+import  android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

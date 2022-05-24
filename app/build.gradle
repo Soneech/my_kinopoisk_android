@@ -63,5 +63,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
 
-
+    implementation "androidx.cardview:cardview:1.0.0"
 }
