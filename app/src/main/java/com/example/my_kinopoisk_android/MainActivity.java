@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         moviesTitles = new ArrayList<>();
         getData();
 
-        for (int i = 0; i < moviesCount; i++) {
-            Log.d("RR1", movies.get(i).getTitle());
-        }
-        Log.d("RRR", String.valueOf(movies.size()));
     }
 
     public void updateData(Movie movie) {
