@@ -35,6 +35,30 @@ public class Movie {
     @Expose
     private Set<FilmCrew> filmCrews = new HashSet<>();
 
+    Movie() {
+
+    }
+
+    public Movie(Long id, String title, Integer ageLimit, String countryOfProduction, String description) {
+        this.id = id;
+        this.title = title;
+        this.ageLimit = ageLimit;
+        this.countryOfProduction = countryOfProduction;
+        this.description = description;
+    }
+
+    public Movie(Long id, String title, Integer ageLimit, String countryOfProduction, String description, String releaseDate, Set<Genre> genres, Set<Actor> actors, Set<FilmCrew> filmCrews) {
+        this.id = id;
+        this.title = title;
+        this.ageLimit = ageLimit;
+        this.countryOfProduction = countryOfProduction;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.genres = genres;
+        this.actors = actors;
+        this.filmCrews = filmCrews;
+    }
+
     public Long getId() {
         return id;
     }

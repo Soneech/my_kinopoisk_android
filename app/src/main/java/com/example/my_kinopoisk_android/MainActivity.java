@@ -8,10 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.my_kinopoisk_android.api.NetworkService;
 import com.example.my_kinopoisk_android.models.Movie;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,8 +26,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private MyRecyclerViewAdapter adapter;
     private ArrayList<Movie> movies = new ArrayList<>();
-    private ArrayList<String> moviesTitles;
-    private int moviesCount = 9;
+    private final int MOVIES_COUNT = 9;
     private RecyclerView recyclerView;
 
     @Override
@@ -33,21 +35,19 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.moviesRecyclerView);
 
-        moviesTitles = new ArrayList<>();
         getData();
-
     }
 
     public void updateData(Movie movie) {
-        moviesTitles.add(movie.getTitle());
+        movies.add(movie);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyRecyclerViewAdapter(this, moviesTitles);
+        adapter = new MyRecyclerViewAdapter(this, movies);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
     public void getData() {
-        for (int i = 1; i <= moviesCount; i++) {
+        for (int i = 1; i <= MOVIES_COUNT; i++) {
             NetworkService.getInstance()
                     .getJSONApi()
                     .getPostWithID(i)
@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                         public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
                             Movie movie = response.body();
                             updateData(movie);
-                            movies.add(movie);
-                            Log.d("RRR", String.valueOf(movies.size()));
                         }
 
                         @Override
@@ -69,9 +67,27 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("position", position);
-        startActivity(intent);
+    public void onItemClick(View view, Movie movie) {
+        showMovieWindow(movie);
+    }
+
+    public void showMovieWindow(Movie movie) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(R.string.description);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View movieWindow = inflater.inflate(R.layout.movie_window, null);
+        dialog.setView(movieWindow);
+
+        final TextView descriptionTextView = movieWindow.findViewById(R.id.descriptionTextView);
+        descriptionTextView.setText(movie.getDescription());
+
+        dialog.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

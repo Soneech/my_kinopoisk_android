@@ -8,17 +8,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.my_kinopoisk_android.models.Movie;
+
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> moviewTitles;
+    private List<Movie> movies;
     private LayoutInflater inflater;
     private ItemClickListener clickListener;
 
-    MyRecyclerViewAdapter(Context context, List<String> data) {
+    MyRecyclerViewAdapter(Context context, List<Movie> movies) {
         this.inflater = LayoutInflater.from(context);
-        this.moviewTitles = data;
+        this.movies = movies;
     }
 
     @Override
@@ -29,32 +31,40 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = moviewTitles.get(position);
-        holder.myTextView.setText(animal);
+        String movieTitle = movies.get(position).getTitle();
+        String ageLimit = String.valueOf(movies.get(position).getAgeLimit()) + "+";
+        String countryOfProduction = movies.get(position).getCountryOfProduction();
+        holder.movieTitleTV.setText(movieTitle);
+        holder.ageLimitTV.setText(ageLimit);
+        holder.countryOfProductionTV.setText(countryOfProduction);
     }
 
     @Override
     public int getItemCount() {
-        return moviewTitles.size();
+        return movies.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView movieTitleTV;
+        TextView ageLimitTV;
+        TextView countryOfProductionTV;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.movieTitleTextView);
+            movieTitleTV = itemView.findViewById(R.id.movieTitleTextView);
+            ageLimitTV = itemView.findViewById(R.id.ageLimitTextView);
+            countryOfProductionTV = itemView.findViewById(R.id.countryOfProductionTextView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (clickListener != null) clickListener.onItemClick(view, getAdapterPosition());
+            if (clickListener != null) clickListener.onItemClick(view, getItem(getAdapterPosition()));
         }
     }
 
-    String getItem(int id) {
-        return moviewTitles.get(id);
+    Movie getItem(int id) {
+        return movies.get(id);
     }
 
     void setClickListener(ItemClickListener itemClickListener) {
@@ -62,6 +72,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, Movie movie);
     }
 }

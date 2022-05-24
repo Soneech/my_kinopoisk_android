@@ -15,11 +15,6 @@
         android:theme="@style/Theme.My_kinopoisk_android"
         tools:targetApi="24">
         <activity
-            android:name=".MovieActivity"
-            android:exported="false"
-            android:label="@string/title_activity_movie"
-            android:theme="@style/Theme.My_kinopoisk_android.NoActionBar" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
